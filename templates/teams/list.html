@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}My Teams - AoT{% endblock %}
+
+{% block content %}
+<section class="teams-page">
+    <div class="section-header">
+        <h1>My Teams</h1>
+        <p>Create teams to analyze group dynamics and compatibility</p>
+    </div>
+
+    <div class="teams-actions-bar">
+        <a href="{{ url_for('create_team') }}" class="btn btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+            </svg>
+            Create Team
+        </a>
+        <button onclick="showJoinModal()" class="btn btn-secondary">
+            Join with Code
+        </button>
+    </div>
+
+    {% if teams %}
+        <div class="teams-grid">
+            {% for team in teams %}
+                <a href="{{ url_for('view_team', team_id=team.id) }}" class="team-card">
+                    <div class="team-header">
+                        <h3>{{ team.name }}</h3>
+                        {% if team.owner_id == current_user.id %}
+                            <span class="owner-badge">Owner</span>
+                        {% endif %}
+                    </div>
+                    <p class="team-description">{{ team.description or 'No description' }}</p>
+                    <div class="team-meta">
+                        <span class="member-count">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+                            </svg>
+                            {{ team.members.count() }} members
+                        </span>
+                        <span class="created-date">Created {{ team.created_at.strftime('%b %d, %Y') }}</span>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-state-large">
+            <div class="empty-icon">
+                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/>
+                </svg>
+            </div>
+            <h2>No Teams Yet</h2>
+            <p>Create a team to analyze group personality dynamics, or join an existing team with an invite code.</p>
+            <div class="empty-actions">
+                <a href="{{ url_for('create_team') }}" class="btn btn-primary">Create Your First Team</a>
+                <button onclick="showJoinModal()" class="btn btn-secondary">Join a Team</button>
+            </div>
+        </div>
+    {% endif %}
+</section>
+
+<!-- Join Team Modal -->
+<div id="join-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h3>Join a Team</h3>
+        <p>Enter the 8-character invite code shared by the team owner.</p>
+        <form action="{{ url_for('join_team') }}" method="POST">
+            <div class="form-group">
+                <label for="invite_code">Invite Code</label>
+                <input type="text" id="invite_code" name="invite_code" required
+                       placeholder="e.g., ABC12345" maxlength="8"
+                       style="text-transform: uppercase; letter-spacing: 2px; font-family: monospace;">
+            </div>
+            <div class="modal-actions">
+                <button type="button" onclick="hideJoinModal()" class="btn btn-secondary">Cancel</button>
+                <button type="submit" class="btn btn-primary">Join Team</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function showJoinModal() {
+        document.getElementById('join-modal').style.display = 'flex';
+        document.getElementById('invite_code').focus();
+    }
+    function hideJoinModal() {
+        document.getElementById('join-modal').style.display = 'none';
+    }
+    // Close modal on outside click
+    document.getElementById('join-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'join-modal') hideJoinModal();
+    });
+</script>
+{% endblock %}

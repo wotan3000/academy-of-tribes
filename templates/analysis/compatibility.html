@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}Compatibility Analysis - AoT{% endblock %}
+
+{% block content %}
+<section class="compatibility-page">
+    <div class="section-header">
+        <h1>Compatibility Analysis</h1>
+        <p>Explore how different personality types interact and communicate</p>
+    </div>
+
+    <div class="compatibility-tool">
+        <div class="type-selectors">
+            <div class="type-selector">
+                <label>First Type</label>
+                <select id="type1" class="type-select">
+                    <option value="">Select a type...</option>
+                    {% for type in all_types %}
+                        <option value="{{ type }}" {% if type == user_type %}selected{% endif %}>{{ type }}</option>
+                    {% endfor %}
+                </select>
+                {% if user_type %}
+                    <span class="your-type-label">Your type</span>
+                {% endif %}
+            </div>
+            <div class="vs-indicator">
+                <span>VS</span>
+            </div>
+            <div class="type-selector">
+                <label>Second Type</label>
+                <select id="type2" class="type-select">
+                    <option value="">Select a type...</option>
+                    {% for type in all_types %}
+                        <option value="{{ type }}">{{ type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button id="analyze-btn" class="btn btn-primary btn-large">Analyze Compatibility</button>
+    </div>
+
+    <div id="results-container" class="compatibility-results" style="display: none;">
+        <!-- Score -->
+        <div class="compat-score-section">
+            <div class="compat-score-circle" id="score-circle">
+                <span class="score-value" id="score-value">0</span>
+                <span class="score-label">Compatibility</span>
+            </div>
+            <p class="compat-summary" id="compat-summary"></p>
+        </div>
+
+        <!-- Details Grid -->
+        <div class="compat-details-grid">
+            <div class="compat-card strengths-card">
+                <h3>Relationship Strengths</h3>
+                <ul id="strengths-list"></ul>
+            </div>
+            <div class="compat-card challenges-card">
+                <h3>Potential Challenges</h3>
+                <ul id="challenges-list"></ul>
+            </div>
+            <div class="compat-card tips-card">
+                <h3>Tips for Success</h3>
+                <ul id="tips-list"></ul>
+            </div>
+        </div>
+
+        <!-- Communication Guide -->
+        <div class="communication-section">
+            <h2>Communication Guide</h2>
+            <div class="comm-grid">
+                <div class="comm-card" id="comm-type1-to-type2">
+                    <h4>When <span class="type1-label"></span> communicates with <span class="type2-label"></span>:</h4>
+                    <ul class="comm-tips" id="comm-tips-1to2"></ul>
+                </div>
+                <div class="comm-card" id="comm-type2-to-type1">
+                    <h4>When <span class="type2-label"></span> communicates with <span class="type1-label"></span>:</h4>
+                    <ul class="comm-tips" id="comm-tips-2to1"></ul>
+                </div>
+            </div>
+            <div class="general-tips" id="general-tips"></div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const type1Select = document.getElementById('type1');
+    const type2Select = document.getElementById('type2');
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const resultsContainer = document.getElementById('results-container');
+
+    analyzeBtn.addEventListener('click', async () => {
+        const type1 = type1Select.value;
+        const type2 = type2Select.value;
+
+        if (!type1 || !type2) {
+            alert('Please select both personality types');
+            return;
+        }
+
+        analyzeBtn.disabled = true;
+        analyzeBtn.textContent = 'Analyzing...';
+
+        try {
+            const response = await fetch('/api/compatibility', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type1, type2 }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                displayResults(data, type1, type2);
+            } else {
+                alert(data.error || 'An error occurred');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred');
+        } finally {
+            analyzeBtn.disabled = false;
+            analyzeBtn.textContent = 'Analyze Compatibility';
+        }
+    });
+
+    function displayResults(data, type1, type2) {
+        const { compatibility, communication } = data;
+
+        // Show container
+        resultsContainer.style.display = 'block';
+
+        // Animate score
+        const scoreCircle = document.getElementById('score-circle');
+        const scoreValue = document.getElementById('score-value');
+        animateScore(0, compatibility.score, 1000, scoreValue);
+
+        // Set color based on score
+        const hue = (compatibility.score / 100) * 120; // 0=red, 120=green
+        scoreCircle.style.setProperty('--score-color', `hsl(${hue}, 70%, 50%)`);
+
+        // Summary
+        document.getElementById('compat-summary').textContent = compatibility.summary;
+
+        // Lists
+        setList('strengths-list', compatibility.strengths);
+        setList('challenges-list', compatibility.challenges);
+        setList('tips-list', compatibility.tips);
+
+        // Communication guide
+        document.querySelectorAll('.type1-label').forEach(el => el.textContent = type1);
+        document.querySelectorAll('.type2-label').forEach(el => el.textContent = type2);
+
+        setList('comm-tips-1to2', communication.from_type1_to_type2);
+        setList('comm-tips-2to1', communication.from_type2_to_type1);
+
+        const generalTips = document.getElementById('general-tips');
+        generalTips.innerHTML = communication.general_tips.map(tip => `<p>${tip}</p>`).join('');
+
+        // Scroll to results
+        resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function setList(elementId, items) {
+        const list = document.getElementById(elementId);
+        list.innerHTML = items.map(item => `<li>${item}</li>`).join('');
+    }
+
+    function animateScore(start, end, duration, element) {
+        const range = end - start;
+        const startTime = performance.now();
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            element.textContent = Math.round(start + range * eased);
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            }
+        }
+
+        requestAnimationFrame(update);
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Create Team - AoT{% endblock %}
+
+{% block content %}
+<section class="create-team-page">
+    <div class="form-container">
+        <div class="form-header">
+            <h1>Create a Team</h1>
+            <p>Build a team to analyze group dynamics and compatibility</p>
+        </div>
+
+        <form method="POST" class="team-form">
+            <div class="form-group">
+                <label for="name">Team Name *</label>
+                <input type="text" id="name" name="name" required
+                       placeholder="e.g., Marketing Team, Study Group"
+                       maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="3"
+                          placeholder="What is this team for?"></textarea>
+            </div>
+
+            <div class="form-info">
+                <h3>What happens next?</h3>
+                <ul>
+                    <li>You'll receive a unique invite code to share with team members</li>
+                    <li>Members join using the invite code</li>
+                    <li>Once members complete their MBTI assessment, you'll see team dynamics analysis</li>
+                </ul>
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ url_for('teams_list') }}" class="btn btn-secondary">Cancel</a>
+                <button type="submit" class="btn btn-primary">Create Team</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

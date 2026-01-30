@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block title %}AoT - Discover Your Personality Type{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">MBTI Personality Assessment</div>
+        <h1>Discover Your <span class="gradient-text">Personality Type</span></h1>
+        <p class="hero-subtitle">
+            Uncover your unique cognitive patterns and understand how you perceive
+            and interact with the world around you.
+        </p>
+        <div class="hero-buttons">
+            <a href="{{ url_for('quiz', assessment_type='mbti') }}" class="btn btn-primary btn-large">
+                Start Assessment
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+            <a href="{{ url_for('all_types') }}" class="btn btn-secondary btn-large">
+                Explore Types
+            </a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <span class="stat-number" id="stat-submissions">0</span>
+                <span class="stat-label">Assessments Taken</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">16</span>
+                <span class="stat-label">Personality Types</span>
+            </div>
+            <div class="stat">
+                <span class="stat-number">24</span>
+                <span class="stat-label">Questions</span>
+            </div>
+        </div>
+    </div>
+    <div class="hero-visual">
+        <div class="personality-grid">
+            <div class="type-card mini" style="--accent: #6366f1;">INTJ</div>
+            <div class="type-card mini" style="--accent: #8b5cf6;">INTP</div>
+            <div class="type-card mini" style="--accent: #ec4899;">ENTJ</div>
+            <div class="type-card mini" style="--accent: #f43f5e;">ENTP</div>
+            <div class="type-card mini" style="--accent: #10b981;">INFJ</div>
+            <div class="type-card mini" style="--accent: #14b8a6;">INFP</div>
+            <div class="type-card mini" style="--accent: #22c55e;">ENFJ</div>
+            <div class="type-card mini" style="--accent: #84cc16;">ENFP</div>
+            <div class="type-card mini" style="--accent: #0ea5e9;">ISTJ</div>
+            <div class="type-card mini" style="--accent: #06b6d4;">ISFJ</div>
+            <div class="type-card mini" style="--accent: #3b82f6;">ESTJ</div>
+            <div class="type-card mini" style="--accent: #2563eb;">ESFJ</div>
+            <div class="type-card mini" style="--accent: #f97316;">ISTP</div>
+            <div class="type-card mini" style="--accent: #fb923c;">ISFP</div>
+            <div class="type-card mini" style="--accent: #ef4444;">ESTP</div>
+            <div class="type-card mini" style="--accent: #f87171;">ESFP</div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="section-header">
+        <h2>How It Works</h2>
+        <p>A scientifically-informed assessment to help you understand your personality</p>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9 11l3 3L22 4"/>
+                    <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                </svg>
+            </div>
+            <h3>Answer Questions</h3>
+            <p>Respond to 24 carefully crafted questions about your preferences and behaviors.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                    <path d="M2 17l10 5 10-5"/>
+                    <path d="M2 12l10 5 10-5"/>
+                </svg>
+            </div>
+            <h3>Get Your Type</h3>
+            <p>Discover your 4-letter personality type across four key dimensions.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 6v6l4 2"/>
+                </svg>
+            </div>
+            <h3>Understand Yourself</h3>
+            <p>Learn about your strengths, challenges, ideal careers, and more.</p>
+        </div>
+    </div>
+</section>
+
+<section class="dimensions">
+    <div class="section-header">
+        <h2>The Four Dimensions</h2>
+        <p>MBTI measures your preferences across four pairs of traits</p>
+    </div>
+    <div class="dimensions-grid">
+        <div class="dimension-card">
+            <div class="dimension-header">
+                <span class="dimension-left">E</span>
+                <span class="dimension-vs">vs</span>
+                <span class="dimension-right">I</span>
+            </div>
+            <h3>Extraversion / Introversion</h3>
+            <p>How you gain energy: from external activities and people, or from inner reflection and solitude.</p>
+        </div>
+        <div class="dimension-card">
+            <div class="dimension-header">
+                <span class="dimension-left">S</span>
+                <span class="dimension-vs">vs</span>
+                <span class="dimension-right">N</span>
+            </div>
+            <h3>Sensing / Intuition</h3>
+            <p>How you gather information: through concrete facts and details, or through patterns and possibilities.</p>
+        </div>
+        <div class="dimension-card">
+            <div class="dimension-header">
+                <span class="dimension-left">T</span>
+                <span class="dimension-vs">vs</span>
+                <span class="dimension-right">F</span>
+            </div>
+            <h3>Thinking / Feeling</h3>
+            <p>How you make decisions: through logical analysis, or through values and how others are affected.</p>
+        </div>
+        <div class="dimension-card">
+            <div class="dimension-header">
+                <span class="dimension-left">J</span>
+                <span class="dimension-vs">vs</span>
+                <span class="dimension-right">P</span>
+            </div>
+            <h3>Judging / Perceiving</h3>
+            <p>How you approach life: with structure and planning, or with flexibility and spontaneity.</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="cta-content">
+        <h2>Ready to Discover Your Type?</h2>
+        <p>The assessment takes about 5-10 minutes to complete.</p>
+        <a href="{{ url_for('quiz', assessment_type='mbti') }}" class="btn btn-primary btn-large">
+            Begin Assessment
+        </a>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Fetch and display stats
+    fetch('/api/stats')
+        .then(response => response.json())
+        .then(data => {
+            const counter = document.getElementById('stat-submissions');
+            if (data.total_submissions) {
+                animateValue(counter, 0, data.total_submissions, 1500);
+            }
+        })
+        .catch(console.error);
+
+    function animateValue(element, start, end, duration) {
+        const range = end - start;
+        const startTime = performance.now();
+
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            element.textContent = Math.floor(start + range * eased);
+
+            if (progress < 1) {
+                requestAnimationFrame(update);
+            }
+        }
+
+        requestAnimationFrame(update);
+    }
+</script>
+{% endblock %}

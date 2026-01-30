@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Assessments - AoT{% endblock %}
+
+{% block content %}
+<section class="assessments-page">
+    <div class="section-header">
+        <h1>Personality Assessments</h1>
+        <p>Explore different frameworks to understand yourself better</p>
+    </div>
+
+    <div class="assessments-grid">
+        {% for key, assessment in assessments.items() %}
+            <div class="assessment-card">
+                <div class="assessment-header">
+                    <span class="assessment-icon">{{ assessment.icon }}</span>
+                    {% if user_completed.get(key) %}
+                        <span class="completed-indicator">Completed</span>
+                    {% endif %}
+                </div>
+                <h2>{{ assessment.name }}</h2>
+                <h3>{{ assessment.full_name }}</h3>
+                <p>{{ assessment.description }}</p>
+                <div class="assessment-meta">
+                    <span class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                        {{ assessment.time_estimate }}
+                    </span>
+                    <span class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11l3 3L22 4"/>
+                            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+                        </svg>
+                        {{ assessment.question_count }} questions
+                    </span>
+                </div>
+                <a href="{{ url_for('quiz', assessment_type=key) }}" class="btn btn-primary btn-full">
+                    {% if user_completed.get(key) %}Retake Assessment{% else %}Start Assessment{% endif %}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="assessments-info">
+        <h2>About Our Assessments</h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <h3>Science-Based</h3>
+                <p>Our assessments are based on well-established psychological frameworks used by researchers and professionals worldwide.</p>
+            </div>
+            <div class="info-item">
+                <h3>Self-Discovery</h3>
+                <p>These tools are designed for self-reflection and personal growth, not to put you in a box.</p>
+            </div>
+            <div class="info-item">
+                <h3>Privacy First</h3>
+                <p>Your results are private by default. You choose what to share.</p>
+            </div>
+            <div class="info-item">
+                <h3>Free Forever</h3>
+                <p>All assessments are completely free with no hidden costs.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}{{ team.name }} - AoT{% endblock %}
+
+{% block content %}
+<section class="team-view-page">
+    <div class="team-header-section">
+        <div class="team-info">
+            <h1>{{ team.name }}</h1>
+            <p>{{ team.description or 'No description provided.' }}</p>
+            {% if is_owner %}
+                <div class="invite-code-box">
+                    <span class="invite-label">Invite Code:</span>
+                    <code class="invite-code" id="invite-code">{{ team.invite_code }}</code>
+                    <button onclick="copyInviteCode()" class="btn btn-small btn-secondary">Copy</button>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="team-content">
+        <!-- Team Members -->
+        <div class="team-section">
+            <h2>Team Members ({{ members|length }})</h2>
+            <div class="members-grid">
+                {% for member in members %}
+                    <div class="member-card">
+                        <div class="member-avatar">
+                            {{ member.user.display_name[0]|upper if member.user.display_name else member.user.username[0]|upper }}
+                        </div>
+                        <div class="member-info">
+                            <span class="member-name">{{ member.user.display_name or member.user.username }}</span>
+                            {% if member.role == 'owner' %}
+                                <span class="member-role owner">Owner</span>
+                            {% endif %}
+                            {% if member.mbti_type %}
+                                <span class="member-type">{{ member.mbti_type }}</span>
+                            {% else %}
+                                <span class="member-type pending">No MBTI</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Team Dynamics Analysis -->
+        {% if dynamics %}
+            <div class="team-section">
+                <h2>Team Dynamics Analysis</h2>
+
+                <div class="dynamics-score">
+                    <div class="score-circle" style="--score: {{ dynamics.balance_score }}">
+                        <span class="score-value">{{ dynamics.balance_score }}</span>
+                        <span class="score-label">Balance Score</span>
+                    </div>
+                </div>
+
+                <div class="dynamics-grid">
+                    <!-- Type Distribution -->
+                    <div class="dynamics-card">
+                        <h3>Preference Distribution</h3>
+                        <div class="distribution-bars">
+                            <div class="dist-bar">
+                                <span class="dist-label">E / I</span>
+                                <div class="dist-visual">
+                                    <div class="dist-fill left" style="width: {{ (dynamics.distribution.E_I.E / (dynamics.distribution.E_I.E + dynamics.distribution.E_I.I) * 100)|round }}%"></div>
+                                </div>
+                                <span class="dist-values">{{ dynamics.distribution.E_I.E }} / {{ dynamics.distribution.E_I.I }}</span>
+                            </div>
+                            <div class="dist-bar">
+                                <span class="dist-label">S / N</span>
+                                <div class="dist-visual">
+                                    <div class="dist-fill left" style="width: {{ (dynamics.distribution.S_N.S / (dynamics.distribution.S_N.S + dynamics.distribution.S_N.N) * 100)|round }}%"></div>
+                                </div>
+                                <span class="dist-values">{{ dynamics.distribution.S_N.S }} / {{ dynamics.distribution.S_N.N }}</span>
+                            </div>
+                            <div class="dist-bar">
+                                <span class="dist-label">T / F</span>
+                                <div class="dist-visual">
+                                    <div class="dist-fill left" style="width: {{ (dynamics.distribution.T_F.T / (dynamics.distribution.T_F.T + dynamics.distribution.T_F.F) * 100)|round }}%"></div>
+                                </div>
+                                <span class="dist-values">{{ dynamics.distribution.T_F.T }} / {{ dynamics.distribution.T_F.F }}</span>
+                            </div>
+                            <div class="dist-bar">
+                                <span class="dist-label">J / P</span>
+                                <div class="dist-visual">
+                                    <div class="dist-fill left" style="width: {{ (dynamics.distribution.J_P.J / (dynamics.distribution.J_P.J + dynamics.distribution.J_P.P) * 100)|round }}%"></div>
+                                </div>
+                                <span class="dist-values">{{ dynamics.distribution.J_P.J }} / {{ dynamics.distribution.J_P.P }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Temperaments -->
+                    <div class="dynamics-card">
+                        <h3>Temperament Mix</h3>
+                        <div class="temperament-grid">
+                            <div class="temperament-item">
+                                <span class="temp-icon">🧠</span>
+                                <span class="temp-count">{{ dynamics.temperaments.analysts }}</span>
+                                <span class="temp-name">Analysts</span>
+                            </div>
+                            <div class="temperament-item">
+                                <span class="temp-icon">💚</span>
+                                <span class="temp-count">{{ dynamics.temperaments.diplomats }}</span>
+                                <span class="temp-name">Diplomats</span>
+                            </div>
+                            <div class="temperament-item">
+                                <span class="temp-icon">🛡️</span>
+                                <span class="temp-count">{{ dynamics.temperaments.sentinels }}</span>
+                                <span class="temp-name">Sentinels</span>
+                            </div>
+                            <div class="temperament-item">
+                                <span class="temp-icon">🧭</span>
+                                <span class="temp-count">{{ dynamics.temperaments.explorers }}</span>
+                                <span class="temp-name">Explorers</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Strengths -->
+                    {% if dynamics.strengths %}
+                        <div class="dynamics-card">
+                            <h3>Team Strengths</h3>
+                            <ul class="dynamics-list strengths">
+                                {% for strength in dynamics.strengths %}
+                                    <li>{{ strength }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <!-- Gaps -->
+                    {% if dynamics.gaps %}
+                        <div class="dynamics-card">
+                            <h3>Potential Gaps</h3>
+                            <ul class="dynamics-list gaps">
+                                {% for gap in dynamics.gaps %}
+                                    <li>{{ gap }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <!-- Recommendations -->
+                    {% if dynamics.recommendations %}
+                        <div class="dynamics-card full-width">
+                            <h3>Recommendations</h3>
+                            <ul class="dynamics-list recommendations">
+                                {% for rec in dynamics.recommendations %}
+                                    <li>{{ rec }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <div class="team-section">
+                <div class="empty-state">
+                    <h3>Not Enough Data</h3>
+                    <p>Team members need to complete the MBTI assessment for dynamics analysis.</p>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function copyInviteCode() {
+        const code = document.getElementById('invite-code').textContent;
+        navigator.clipboard.writeText(code).then(() => {
+            alert('Invite code copied to clipboard!');
+        });
+    }
+</script>
+{% endblock %}

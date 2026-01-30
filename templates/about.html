@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+
+{% block title %}About - AoT{% endblock %}
+
+{% block content %}
+<section class="about-page">
+    <div class="about-header">
+        <h1>About AoT</h1>
+        <p class="subtitle">Academy of Tribes - Discover Your Tribe, Understand Yourself</p>
+    </div>
+
+    <div class="about-content">
+        <div class="about-section">
+            <h2>Our Mission</h2>
+            <p>
+                The Academy of Tribes (AoT) helps you discover which personality tribe you belong to
+                and how to connect with others. We believe that understanding our differences and
+                similarities can provide profound insights into human behavior, team dynamics, and
+                personal growth.
+            </p>
+        </div>
+
+        <div class="about-section">
+            <h2>Why MBTI?</h2>
+            <p>
+                The Myers-Briggs Type Indicator (MBTI) is based on Carl Jung's theory of psychological
+                types. It provides a framework for understanding how people perceive the world and
+                make decisions. While no personality assessment captures the full complexity of human
+                nature, MBTI offers a useful starting point for self-reflection and understanding others.
+            </p>
+            <div class="info-cards">
+                <div class="info-card">
+                    <h3>Self-Awareness</h3>
+                    <p>Understanding your type can help you recognize your natural strengths and blind spots.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Better Communication</h3>
+                    <p>Learn how different types prefer to communicate and process information.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Team Dynamics</h3>
+                    <p>Build more effective teams by understanding cognitive diversity.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Career Guidance</h3>
+                    <p>Explore careers that align with your natural preferences and strengths.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2>The Four Dimensions</h2>
+            <div class="dimensions-explained">
+                <div class="dimension-explained">
+                    <div class="dimension-icon" style="background: linear-gradient(135deg, #f43f5e, #ec4899);">E/I</div>
+                    <div class="dimension-text">
+                        <h3>Energy Direction</h3>
+                        <p><strong>Extraversion (E)</strong> - Energized by external world, action, people</p>
+                        <p><strong>Introversion (I)</strong> - Energized by internal world, reflection, ideas</p>
+                    </div>
+                </div>
+                <div class="dimension-explained">
+                    <div class="dimension-icon" style="background: linear-gradient(135deg, #8b5cf6, #6366f1);">S/N</div>
+                    <div class="dimension-text">
+                        <h3>Information Gathering</h3>
+                        <p><strong>Sensing (S)</strong> - Focus on concrete facts, details, present reality</p>
+                        <p><strong>Intuition (N)</strong> - Focus on patterns, possibilities, future potential</p>
+                    </div>
+                </div>
+                <div class="dimension-explained">
+                    <div class="dimension-icon" style="background: linear-gradient(135deg, #10b981, #14b8a6);">T/F</div>
+                    <div class="dimension-text">
+                        <h3>Decision Making</h3>
+                        <p><strong>Thinking (T)</strong> - Decide based on logic, objective analysis</p>
+                        <p><strong>Feeling (F)</strong> - Decide based on values, impact on people</p>
+                    </div>
+                </div>
+                <div class="dimension-explained">
+                    <div class="dimension-icon" style="background: linear-gradient(135deg, #f97316, #fb923c);">J/P</div>
+                    <div class="dimension-text">
+                        <h3>Lifestyle Approach</h3>
+                        <p><strong>Judging (J)</strong> - Prefer structure, planning, closure</p>
+                        <p><strong>Perceiving (P)</strong> - Prefer flexibility, spontaneity, options</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2>Important Notes</h2>
+            <div class="notes-box">
+                <ul>
+                    <li><strong>No type is better than another.</strong> Each has unique strengths and contributions.</li>
+                    <li><strong>MBTI describes preferences, not abilities.</strong> You can develop skills outside your natural preferences.</li>
+                    <li><strong>Your type is not a box.</strong> It's a starting point for understanding, not a limitation.</li>
+                    <li><strong>Context matters.</strong> People may behave differently in different situations.</li>
+                    <li><strong>This is a simplified assessment.</strong> For a comprehensive evaluation, consult a certified MBTI practitioner.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="about-section">
+            <h2>Find Your Tribe</h2>
+            <p>
+                AoT helps you understand yourself and connect with like-minded individuals.
+                Our platform explores how personality insights can improve:
+            </p>
+            <ul class="research-areas">
+                <li>Team building and collaboration</li>
+                <li>Personal relationships and communication</li>
+                <li>Career development and job satisfaction</li>
+                <li>Leadership and management styles</li>
+                <li>Self-awareness and personal growth</li>
+            </ul>
+            <p>
+                Join our community and discover the power of understanding personality types.
+            </p>
+        </div>
+    </div>
+
+    <div class="about-cta">
+        <h2>Ready to explore?</h2>
+        <div class="cta-buttons">
+            <a href="{{ url_for('quiz', assessment_type='mbti') }}" class="btn btn-primary btn-large">Take the Assessment</a>
+            <a href="{{ url_for('all_types') }}" class="btn btn-secondary btn-large">Browse All Types</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

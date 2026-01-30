@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error - AoT{% endblock %}
+
+{% block content %}
+<section class="error-page">
+    <div class="error-content">
+        <div class="error-code">500</div>
+        <h1>Something Went Wrong</h1>
+        <p>We're experiencing technical difficulties. Please try again later.</p>
+        <div class="error-actions">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">Go Home</a>
+            <button onclick="location.reload()" class="btn btn-secondary">Try Again</button>
+        </div>
+    </div>
+</section>
+{% endblock %}
