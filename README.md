@@ -1,102 +1,78 @@
-# AoT Website - Academy of Tribes Personality Platform
+# Academy of Tribes - Personality Assessment Platform
 
-A modern, responsive web application for personality assessments including MBTI, Big Five, Enneagram, DISC, and Cognitive Functions. Built as part of the Academy of Tribes (AoT) digital platform.
+A modern Next.js web application for personality assessments including MBTI, Big Five, Enneagram, DISC, and Cognitive Functions.
 
 ## Features
 
-- **Multiple Assessments**: MBTI, Big Five (OCEAN), Enneagram, DISC, and Cognitive Functions
-- **User Accounts**: Registration, login, profiles, and assessment history
-- **Team Features**: Create teams, analyze team dynamics, invite members
-- **Compatibility Analysis**: Compare personalities and get relationship insights
-- **Gamification**: XP, levels, badges, and streaks
-- **Modern UI**: Dark theme with smooth animations and responsive design
-- **Shareable Results**: Unique URLs for sharing personality results
+- **Multiple Assessments**: MBTI (live), Big Five, Enneagram, DISC, Cognitive Functions (coming soon)
+- **24-Question MBTI Quiz**: Comprehensive assessment covering all four dimensions
+- **Instant Results**: Real-time personality type calculation with visual breakdowns
+- **All 16 Types**: Complete descriptions, strengths, challenges, and career suggestions
+- **Modern UI**: Dark theme with Tailwind CSS and smooth animations
+- **Responsive Design**: Works on desktop and mobile
 
 ## Quick Start
 
 ### Prerequisites
 
-- Python 3.8+
-- pip
+- Node.js 18+
+- npm or yarn
 
 ### Installation
 
 ```bash
-cd website
-pip install -r requirements.txt
+npm install
 ```
 
-### Run Development Server
+### Development
 
 ```bash
-python app.py
+npm run dev
 ```
 
-Then open http://localhost:5000 in your browser.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Production Deployment
+### Production Build
 
 ```bash
-gunicorn -w 4 -b 0.0.0.0:8000 app:app
+npm run build
+npm start
 ```
 
 ## Project Structure
 
 ```
-website/
-├── app.py                 # Flask application & API routes
-├── models.py              # SQLAlchemy database models
-├── analysis.py            # Personality analysis engine
-├── requirements.txt       # Python dependencies
-├── assessments/           # Assessment modules
-│   ├── __init__.py
-│   ├── mbti.py           # Myers-Briggs Type Indicator
-│   ├── big_five.py       # Big Five (OCEAN) personality
-│   ├── enneagram.py      # Enneagram types
-│   ├── disc.py           # DISC behavioral assessment
-│   └── cognitive.py      # Jungian Cognitive Functions
-├── static/
-│   ├── css/
-│   │   └── style.css     # Complete styling
-│   └── js/
-│       └── main.js       # Client-side interactivity
-└── templates/
-    ├── base.html         # Base template with nav/footer
-    ├── index.html        # Home page
-    ├── dashboard.html    # User dashboard
-    ├── types.html        # All personality types
-    ├── about.html        # About page
-    ├── auth/             # Login/register templates
-    ├── assessments/      # Quiz and results templates
-    ├── teams/            # Team management templates
-    ├── analysis/         # Insights and compatibility
-    └── profile/          # User profile templates
+├── src/
+│   ├── app/
+│   │   ├── page.tsx          # Home page
+│   │   ├── layout.tsx        # Root layout with nav/footer
+│   │   ├── globals.css       # Global styles
+│   │   ├── about/            # About page
+│   │   ├── assessments/      # Assessments list
+│   │   ├── quiz/[type]/      # Dynamic quiz pages
+│   │   └── types/            # All personality types
+│   └── lib/
+│       └── mbti.ts           # MBTI questions, types & calculator
+├── public/                   # Static assets
+└── package.json
 ```
-
-## API Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/` | GET | Home page |
-| `/dashboard` | GET | User dashboard |
-| `/assessments` | GET | Assessment list |
-| `/quiz/<type>` | GET | Take assessment |
-| `/results/<id>` | GET | Results page |
-| `/types` | GET | All personality types |
-| `/teams` | GET | Team management |
-| `/compatibility` | GET | Compatibility analysis |
-| `/insights` | GET | Personal insights |
-| `/api/submit/<type>` | POST | Submit quiz answers |
-| `/api/results/<id>` | GET | Get result data |
-| `/api/stats` | GET | Aggregate statistics |
 
 ## Technology Stack
 
-- **Backend**: Flask, SQLAlchemy, Flask-Login
-- **Frontend**: Vanilla JavaScript, CSS3
-- **Database**: SQLite (development), PostgreSQL (production)
+- **Framework**: Next.js 16 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS 4
 - **Fonts**: Inter, Space Grotesk (Google Fonts)
+
+## Deploy on Vercel
+
+This app is optimized for deployment on [Vercel](https://vercel.com).
+
+```bash
+npm i -g vercel
+vercel
+```
 
 ## License
 
-Part of the Academy of Tribes project.
+Academy of Tribes Project
