@@ -111,9 +111,9 @@ export default function Home() {
 
         <p style={styles.paragraph}>
           How we understand ourselves and others is ultimately a job for the
-          brain. The human brain is in the end an advanced prediction generator.
+          brain. The human brain can in a sense be thought of as an advanced prediction generator.
           It stands to reason that a lot of the unease (and dis-ease) experienced
-          in our modern 21st century lives come from an unbalanced match between
+          in our modern 21<sup>st</sup> century lives come from an unbalanced match between
           our many prediction models and how we perceive the world. Or to put it
           another way. There is a discrepancy between our predictions of
           ourselves and others, and how we perceive ourselves and others.
@@ -125,7 +125,7 @@ export default function Home() {
           our prediction models and perceptions. Depending on who we are, our
           default set of prediction models that organize our personal life and
           our worldview differ. However, our perception of our personal life and
-          the world around us might not serve our mental health and well-being.
+          the world around us might not serve our mental health, well-being, and growth.
         </p>
 
         <p style={styles.highlight}>
@@ -135,9 +135,9 @@ export default function Home() {
 
         <p style={styles.lastParagraph}>
           Academy of Tribes seek to help navigate this ocean of thoughts and
-          practices to find methods and knowledge that can help this process for
-          individuals and businesses alike. To better understand ourselves and
-          others in our shared existence.
+          practices to find methods and knowledge that can help this process for 
+          well-being and growth. For individuals and businesses alike.
+          To better understand ourselves and others in our shared existence.
         </p>
       </div>
 
